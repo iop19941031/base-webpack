@@ -2,6 +2,7 @@ import _ from 'lodash';
 import './style.css';
 import Icon from './11.jpg'
 import Data from './data.xml'
+import { printMe } from './print.js';
 function component() {
     var element = document.createElement('div');
 
@@ -17,6 +18,13 @@ function component() {
 
     element.appendChild(myIcon);
 
+    var btn = document.createElement('button');
+
+    btn.innerHTML = 'Click me and check the console!';
+    btn.onclick = printMe;
+
+    element.appendChild(btn);
+    
     console.log(Data);
     return element;
 }
