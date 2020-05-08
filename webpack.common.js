@@ -1,6 +1,8 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+
 module.exports = {
     entry: {
         app: './src/main.js',
@@ -16,6 +18,7 @@ module.exports = {
                 test: /\.css$/,
                 use: [
                     'style-loader',
+                    // MiniCssExtractPlugin.loader,
                     'css-loader'
                 ]
             },
