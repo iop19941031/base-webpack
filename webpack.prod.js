@@ -1,5 +1,5 @@
 const merge = require('webpack-merge');
-const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
 const common = require('./webpack.common.js');
 
 module.exports = merge(common, {
@@ -9,9 +9,11 @@ module.exports = merge(common, {
         splitChunks: {
             name: "commons",
             chunks: 'all'
-        }
+        },
+        minimize: true,
+        minimizer: [new TerserPlugin({
+            sourceMap: false,
+        })],
     },
-    plugins: [
-        new UglifyJSPlugin()
-    ]
+
 });
