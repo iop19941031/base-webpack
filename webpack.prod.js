@@ -1,6 +1,7 @@
 const merge = require('webpack-merge');
 const TerserPlugin = require('terser-webpack-plugin');
 const common = require('./webpack.common.js');
+const webpack = require('webpack');
 
 module.exports = merge(common, {
     devtool: 'source-map',
@@ -15,5 +16,7 @@ module.exports = merge(common, {
             sourceMap: false,
         })],
     },
-
+    plugins: [
+        new webpack.HashedModuleIdsPlugin(),
+    ]
 });
