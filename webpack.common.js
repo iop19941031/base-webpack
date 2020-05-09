@@ -2,7 +2,10 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const devMode = process.env.NODE_ENV !== 'production';
 const webpack = require('webpack');
+
+const resolve = (dir) => path.join(__dirname, dir)
 
 module.exports = {
     entry: {
@@ -10,29 +13,49 @@ module.exports = {
         print: './src/print.js',
     },
     output: {
-        filename: '[name].[chunkhash].js',
-        path: path.resolve(__dirname, './dist')
+        filename: 'asset/js/[name].[chunkhash].js',
+        path: resolve('./dist')
     },
     module: {
         rules: [
             {
                 test: /\.css$/,
                 use: [
-                    'style-loader',
-                    // MiniCssExtractPlugin.loader,
+                    devMode ? 'style-loader' : {
+                        loader: MiniCssExtractPlugin.loader,
+                        options: {
+                            hmr: process.env.NODE_ENV === 'development',
+
+                        }
+                    },
                     'css-loader'
                 ]
             },
             {
                 test: /\.(png|svg|jpg|gif)$/,
                 use: [
-                    'file-loader'
+                    {
+                        loader: 'url-loader',
+                        options: {
+                            limit: 8192,
+                            name: '[name].[hash:8].[ext]',
+                            publicPath: resolve('dist/asset/images'),
+                            outputPath: 'asset/images'
+                        }
+                    }
                 ]
             },
             {
                 test: /\.(woff|woff2|eot|ttf|otf)$/,
                 use: [
-                    'file-loader'
+                    {
+                        loader: 'file-loader',
+                        options: {
+                            name: '[name].[hash:8].[ext]',
+                            publicPath: resolve('dist/asset/font'),
+                            outputPath: 'asset/font'
+                        }
+                    }
                 ]
             },
             {
@@ -50,6 +73,10 @@ module.exports = {
         ]
     },
     plugins: [
+        new MiniCssExtractPlugin({
+            filename: devMode ? 'asset/css/[name].css' : 'asset/css/[name].[hash].css',
+            chunkFilename: devMode ? 'asset/css/[id].css' : 'asset/css/[id].[hash].css',
+        }),
         new CleanWebpackPlugin(),
         new HtmlWebpackPlugin({
             title: 'Output Management'

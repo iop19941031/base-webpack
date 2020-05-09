@@ -1,6 +1,7 @@
 // import _ from 'lodash';
 import './style.css';
 import Icon from './11.jpg'
+import Icon4 from './4.png'
 import Data from './data.xml'
 import { printMe } from './print.js';
 function component() {
@@ -17,6 +18,11 @@ function component() {
     myIcon.src = Icon;
 
     element.appendChild(myIcon);
+
+    var myIcon4 = new Image();
+    myIcon4.src = Icon4;
+
+    element.appendChild(myIcon4);
 
     var btn = document.createElement('button');
 
