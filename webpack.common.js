@@ -5,6 +5,9 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const devMode = process.env.NODE_ENV !== 'production';
 const webpack = require('webpack');
 
+const MyPlugin = require('./plugins/myplugin')
+const Listen4Myplugin = require('./plugins/listen4myplugin.js')
+
 const resolve = (dir) => path.join(__dirname, dir)
 
 module.exports = {
@@ -84,6 +87,8 @@ module.exports = {
         new webpack.ProvidePlugin({
             _: 'lodash',
             join: ['lodash', 'join']
-        })
+        }),
+        new MyPlugin("Plugin is instancing."),
+        new Listen4Myplugin()
     ],
 };
