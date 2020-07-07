@@ -16,7 +16,8 @@ module.exports = {
         print: './src/print.js',
     },
     output: {
-        filename: 'asset/js/[name].[chunkhash].js',
+        filename: 'asset/js/[name].[hash].js',
+        chunkFilename: "asset/js/chunk.[chunkhash].js", // 长效缓存(/guides/caching)
         path: resolve('./dist')
     },
     module: {
