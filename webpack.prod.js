@@ -3,6 +3,8 @@ const TerserPlugin = require('terser-webpack-plugin');
 const common = require('./webpack.common.js');
 const webpack = require('webpack');
 const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
+// 清理dist文件夹
+const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 
 module.exports = merge(common, {
     mode: 'production',
@@ -22,6 +24,7 @@ module.exports = merge(common, {
         ],
     },
     plugins: [
+        new CleanWebpackPlugin(),
         new webpack.HashedModuleIdsPlugin(),
     ]
 });
