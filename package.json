@@ -19,6 +19,7 @@
     "babel": "^6.23.0",
     "babel-loader": "^8.1.0",
     "clean-webpack-plugin": "^3.0.0",
+    "core-js": "^3.6.5",
     "cross-env": "^7.0.2",
     "css-loader": "^3.6.0",
     "csv-loader": "^3.0.3",
@@ -37,5 +38,9 @@
   },
   "dependencies": {
     "lodash": "^4.17.15"
-  }
+  },
+  "browserslist": [
+    "> 1%",
+    "not ie <= 8"
+  ]
 }
