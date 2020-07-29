@@ -7,6 +7,7 @@ const webpack = require('webpack');
 
 const MyPlugin = require('./plugins/myplugin')
 const Listen4Myplugin = require('./plugins/listen4myplugin.js')
+const TestPlugin = require('./plugins/test-plugin');
 
 const resolve = (dir) => path.join(__dirname, dir)
 
@@ -69,12 +70,6 @@ module.exports = {
                 ]
             },
             {
-                test: /\.xml$/,
-                use: [
-                    'xml-loader'
-                ]
-            },
-            {
                 test: /\.js$/,
                 exclude: /node_modules/,
                 use: [
@@ -122,6 +117,7 @@ module.exports = {
             _: 'lodash',
             join: ['lodash', 'join']
         }),
+        new TestPlugin(),
         new MyPlugin("Plugin is instancing."),
         new Listen4Myplugin()
     ],

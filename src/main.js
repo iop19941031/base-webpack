@@ -2,7 +2,6 @@
 import './style.css';
 import Icon from './11.jpg'
 import Icon4 from './4.png'
-import Data from './data.xml'
 import { printMe } from './print.js';
 function component() {
     var element = document.createElement('div');
@@ -30,7 +29,6 @@ function component() {
     btn.onclick = printMe;
 
     element.appendChild(btn);
-    console.log(Data);
     return element;
 }
 
