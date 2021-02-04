@@ -40,25 +40,29 @@ module.exports = class FileListPlugin {
                     // module包含多个依赖，通过module.dependencies进行遍历
 
                     module.dependencies.forEach(dependency => {
-
-
                         if (dependency.module && dependency.module.resource) {
-                            console.log('-----------------------');
-                            console.log(dependency.module.resource);
-                            console.log('-----------------------');
+                            if (!/\.js$/.test(dependency.module.resource)) {
+                                console.log('-----------------------');
+                                console.log('source: ' + dependency.module.resource);
+
+                                // 代码的资源依赖路径
+                                if (dependency.module._source) {
+                                    console.log('........................');
+                                    console.log('dependency:' + '\n' + dependency.module._source._value);
+                                    console.log('-----------------------');
+                                }
+                            }
                         }
+
                     });
 
                 }
-                console.log('`````````````````````========================================');
             });
-
 
 
             // 修改或添加资源
             // Create a header string for the generated file:
             var filelist = 'In this build:\n\n'
-
             // Loop through all compiled assets,
             // adding a new line item for each filename.
 
@@ -68,6 +72,7 @@ module.exports = class FileListPlugin {
             }
 
             // Insert this list into the webpack build as a new file asset:
+            // 资源表
             assets['filelist.md'] = {
                 source: function () {
                     return filelist
