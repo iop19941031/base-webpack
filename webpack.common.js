@@ -8,6 +8,7 @@ const webpack = require('webpack');
 const MyPlugin = require('./plugins/myplugin')
 const Listen4Myplugin = require('./plugins/listen4myplugin.js')
 const TestPlugin = require('./plugins/test-plugin');
+const FileListPlugin = require('./plugins/file-list.js')
 
 const resolve = (dir) => path.join(__dirname, dir)
 
@@ -119,6 +120,7 @@ module.exports = {
         }),
         new TestPlugin(),
         new MyPlugin("Plugin is instancing."),
-        new Listen4Myplugin()
+        new Listen4Myplugin(),
+        new FileListPlugin(),
     ],
 };
