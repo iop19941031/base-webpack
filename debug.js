@@ -1,23 +1,22 @@
 #!/usr/bin/env node
 
-const Webpack = require('webpack')
-const WebpackDevServer = require('webpack-dev-server')
+const webpack = require('webpack');
+// const WebpackDevServer = require('webpack-dev-server')
 
-const defaultConfig = require('./webpack.dev.js')
+const options = require('./webpack.watch.prod');
 
-const defaultDevConfig = Object.assign({}, defaultConfig)
+const defaultDevConfig = Object.assign({}, options)
 
-const compiler = Webpack(defaultDevConfig)
-const devServerOptions = defaultDevConfig.devServer
-const devServer = new WebpackDevServer(compiler, devServerOptions)
-devServer.listen(8080, 'localhost', () => {
-    console.log('[Lovely-CLI] Starting server on http://localhost:8082')
-})
-
-// compiler.run((handler) => {
-
+const compiler = webpack(defaultDevConfig);
+// const devServerOptions = defaultDevConfig.devServer
+// const devServer = new WebpackDevServer(compiler, devServerOptions)
+// devServer.listen(8080, 'localhost', () => {
+//     console.log('[Lovely-CLI] Starting server on http://localhost:8082')
 // })
 
-// compiler.watch((handler) => {
+compiler.run(true, (...args) => { });
 
+// compiler.watch(true, (...ss) => {
+//     console.log(13123);
+//     console.log(ss);
 // })
