@@ -21,6 +21,7 @@ module.exports = class FileListPlugin {
             })
             // compilation.chunks存放了代码块列表
 
+            const dependencyFile = []
             chunks.forEach(chunk => {
                 // chunk 代表一个代码块
                 // 代码块由多个模块组成，通过 chunk.forEachModule 能读取组成代码块的每个模块
@@ -34,39 +35,100 @@ module.exports = class FileListPlugin {
                 })
 
 
+                // debugger
                 console.log('`````````````````````========================================');
                 // chunk包含多个模块，通过chunk.modulesIterable可以遍历模块列表
                 for (const module of chunk.modulesIterable) {
                     // module包含多个依赖，通过module.dependencies进行遍历
 
                     module.dependencies.forEach(dependency => {
+                        // if (dependency.module && dependency.module.resource) {
+                        //     if (!/\.js$/.test(dependency.module.resource)) {
+                        //         console.log('-----------------------');
+                        //         console.log('source: ' + dependency.module.resource);
+                        //         // const source = { source: dependency.module.resource }
+                        //         // 代码的资源依赖路径
+                        //         if (dependency.module._source) {
+                        //             console.log('........................');
+                        //             console.log('dependency:' + '\n' + dependency.module._source._value);
+                        //             // const dependencyCode = { dependency: dependency.module._source._value }
+                        //             // console.log('-----------------------');
+                        //             // dependencyFile.push({
+                        //             //     source,
+                        //             //     dependencyCode
+                        //             // })
+                        //         }
+                        //     }
+                        // }
+                        console.log('---------start--------------');
+                        let source = '', dependencyCode = ''
                         if (dependency.module && dependency.module.resource) {
-                            if (!/\.js$/.test(dependency.module.resource)) {
-                                console.log('-----------------------');
-                                console.log('source: ' + dependency.module.resource);
+                            source = dependency.module.resource
+                            console.log(dependency.module.resource);
+                        } else {
+                            console.log('size:0!!');
+                            console.log(dependency);
+                        }
 
-                                // 代码的资源依赖路径
-                                if (dependency.module._source) {
-                                    console.log('........................');
-                                    console.log('dependency:' + '\n' + dependency.module._source._value);
-                                    console.log('-----------------------');
-                                }
+                        if (dependency.module && dependency.module._source) {
+                            if (dependency.module._source._value.length < 300) {
+                                console.log(dependency.module._source._value);
+                                dependencyCode = dependency.module._source._value
+                            } else {
+                                dependencyCode = dependency.module._source._value.length
+                                console.log(dependency.module._source._value.length);
                             }
+
+                        } else {
+                            console.log('length:',dependency);
+                        }
+
+
+                        console.log('-------end----------------');
+                        if (0 !== source.length) {
+                            dependencyFile.push({
+                                source,
+                                dependency: dependencyCode
+                            })
                         }
 
                     });
 
                 }
+
+                // debugger
             });
-
-
+            assets['dependencyFilelength.md'] = {
+                source: function () {
+                    return `${dependencyFile.length}`
+                },
+                size: function () {
+                    return `${dependencyFile.length}`.length
+                }
+            }
+            debugger
+            console.log(JSON.stringify(dependencyFile));
+            console.log(dependencyFile);
+            console.log(JSON.stringify(dependencyFile).length);
+            debugger
+            assets['dependencyFile.json'] = {
+                source: function () {
+                    console.log(JSON.stringify(dependencyFile));
+                    return JSON.stringify(dependencyFile)
+                },
+                size: function () {
+                    console.log(JSON.stringify(dependencyFile).length);
+                    return JSON.stringify(dependencyFile).length
+                }
+            }
+            debugger
             // 修改或添加资源
             // Create a header string for the generated file:
-            var filelist = 'In this build:\n\n'
+            let filelist = 'In this build:\n\n'
             // Loop through all compiled assets,
             // adding a new line item for each filename.
 
-            for (var filename in compilation.assets) {
+            for (let filename in compilation.assets) {
                 filelist += '- ' + filename + '\n'
                 console.log(filename);
             }
